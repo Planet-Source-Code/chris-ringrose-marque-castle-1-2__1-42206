@@ -1,0 +1,177 @@
+
+
+                            M A R Q U E   C A S T L E
+                          [C H R I S   R I N G R O S E]
+                             http://www.gavannon.com/
+
+                "Official Geek-Guide to programming Marque Castle"
+
+
+
+--{Production Notes}--------------------------------------------------------------
+    This is a strategy game, designed in Visual Basic for my grade 11
+      programming class.  Since then I have made a lot of adjustments and bug
+      fixes, sparking my passion for programming (I'm such a geek, I know!)
+
+    You can follow the same steps I did, and perhaps create your own game!
+
+    1. Created the Scenario Creation Artist:
+         Drew up the crappy pictures in MSPaint and numbered each of them for
+           data storage and checking.
+
+    2. Began designing the levels:
+         I made the first few to get a feel of what would be required of my
+           Game Engine.
+
+    3. Completed the Game Engine:
+         Consisted mostly of the "MoveGeorge" Subroutine.  This sorts out
+           whether a move is valid or not, or if you picked up an item, etc -
+           the heart of every game; designed to handle any level you throw
+           at it!
+
+    4. Finished designing most levels:
+         Once the engine was complete, you get a better feel for what kind of
+           strategy you can really weave in.
+
+    5. Artificial Intelligence:
+         Commonly known as AI, I made little creatures in the game that
+           appeared to be alive (more or less).  Unfortunately, I only completed
+           the Drone Mouse's AI routine (found in the "modAI.bas" module) by the
+           time the assignment was due.  Hell, I still got 110%!  *Brushes
+           nails on collar*  Hahaha!
+
+    6. Bug fixes:
+         Believe me, there were tones.  From (what seemed to be) randomly dying
+           for no reason (drove me nuts!), to corrupting files when saving or
+           loading it in the Scenario Creation Artist, bugs can pop up anywhere.
+           Lucky for me, I had a whole class to test it for me during lunches
+           (people seemed to really get into it - thanks Wallace and Justin!).
+
+
+--{Concepts Explained}------------------------------------------------------------
+
+    1. Creating the Scenario Creation Artist:
+         I came to the conclusion that I would have to number each picture; so
+           when saving a level, you're really just storing a bunch of numbers!
+           I made sure that similar types of areas (such as grass and cement)
+           had numbers close by, so I could say "You can walk on areas with a
+           number *less than 3*" for example, which might consist of all your
+           ground areas - all done in one statement!
+         The levels are made up of *an array of 399 different strings*.  They
+           really should have been Integers, but I got too far into this when
+           I realised it.  P l a n n i n g   i s   y o u r   f r i e n d !
+         When you select an item (from an array of items - "Tiles," "Keys,"
+           etc.) to add to your map, an Integer is used to save the Index of
+           what item you selected.  Say you clicked Item(0) for example: the
+           Integer would equal zero.  Then, when you try and place the picture
+           onto your map, picture 0 is loaded into that square, and the array
+           of Strings is updated.
+
+    2. Began designing the levels:
+         I made them progress in difficulty, which is important.  You have to
+           build up the gamer's confidence with the game before you can make it
+           discouraging and annoying.  :)
+
+    3. Completed the Game Engine:
+         Whenever a key is pressed, I checked the "KeyCode," which contains the
+           data for what key you pressed.  This is in the format of vbKeyA,
+           for when you pressed "A" for example, and vbKeyUP when pressed Up.
+           Depending on the key pressed, I called the MoveGeorge sub, feeding
+           to it the proper information.
+         On the 20x20 grid (array of Images), Index 0 being the top-left, and
+           399 the bottom-right, if you pressed Left, you want to pull back
+           your character 1 space to the left, subtracting 1 from his position.
+           To the Right you add 1, Up you subtract 20, and Down you add 20.
+         So if you pressed Up, you'd call MoveGeorge(-20, 91, True).  The three
+           variables I fed to it were: where moving to, picture index to load,
+           whether you're moving George (could be moving Norman).
+         However, before you want to move your character, you need to ensure
+           the move is in fact even valid.  That is what MoveGeorge does.  So,
+           you tell it your proposed move, and it looks at what is there.  If
+           there is just ground, move you there.  If there is a key, move
+           you there, and add a key to your inventory.  If spikes, and you have
+           the Metallic Boots, move you there, otherwise call the Defeat Sub,
+           and so forth.  If the move is invalid (like a wall), don't do
+           anything; don't even check for one.
+
+    4. Finished designing most levels:
+         With the engine finished, it's allot easier to design levels.  Often,
+           you have to play your level before really knowing whether you've got
+           enough appropriate items to complete it.
+
+    5. Artificial Intelligence:
+         Mind boggling.  I knew I wanted an enemy to follow the walls, but I
+           never really thought about just what that meant.  I eventually
+           realised, that to do this, you must always go to the Right of the way
+           you're facing.  Say you're facing what looks like Right -> on the
+           screen.  Your right in the would be Down.  If you're facing Up, your
+           Right would be simply Right.  If the move is invalid, turn Left and
+           try again.  It's confusing, but if you work it out on paper, it
+           works.
+
+
+--{Requirements}------------------------------------------------------------------
+    -Microsoft Visual Basic 6.0
+       If you have 5.0, check "More" at the bottom
+    -Latest Windows Media Player OCX
+    -Windows '95 or higher
+    -To run this, you'll need the sound and data files found in your Marque
+       Castle directory:
+         Skins directory      - Skins (original or custom)
+         Beep.wav             - Sound files
+         Defeat.wav
+         GotBomb.wav
+         GotBoots.wav
+         GotClock.wav
+         GotKey.wav
+         HighScore.wav
+         Spikes1.wav
+         Spikes2.wav
+         Tile.wav
+         Unlock.wav
+         UseBomb.wav
+         Victory.wav
+         Water.wav
+
+         Marque Theme.mid     - Music files
+         Music(0).mid
+         Music(1).mid
+         Music(2).mid
+         Music(3).mid
+         Music(4).mid
+         Music.mid
+
+         Battle.btl           - Data Files
+         CusSet.opt
+
+
+--{More}--------------------------------------------------------------------------
+    1. "I have VB 5.0  Can I run this?
+         Yes.  But it's a pain.  You'll probably get a "key violation" error
+           of some kind.  To remedy this.  Start a new project, and add every
+           component (all Forms and Modules) to it.  Then remove your initial
+           form (Form1.frm) and make "frmSplash" your start-up form under
+           Project, Marque Castle Properties.  Save this project as Marque
+           Castle.  There, you've just saved a VB5 edition of Marque Castle!
+
+    2. All the code you see is derived from my own sweat and sleepless nights.
+         To make a long story short, it's all Copyright by me, so no matter
+         how flattering, please contact me before using any of my code.  I'll
+         almost always say yes, but that way it will be legal.
+
+    3. This was created under a short deadline, and I had *only a year* of
+         programming experience (a year being one class prior).  Alot of the
+         code is done inefficiently, and sometimes a quick solution to something
+         that seemed to be going wrong when debugging it.  (Hmm ... what if I
+         add 1 to i ... nope ... I'll subtract 1 ... there!).
+       By no means is this a place to get good, rock solid functions.  It's
+         to get ideas, and help understand how you'd go about making a more
+         complex game in Visual Basic.  (Check Marque Castle Redux for better
+         functions *when it is complete*).
+
+    Questions, comments, complaints, money?
+      You can contact me by e-mail at:
+      marque@gavannon.com
+
+__________________________________________________________________________________
+Copyright © 2003 Chris Ringrose
